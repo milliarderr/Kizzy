@@ -42,7 +42,7 @@ class TemplateProcessor(
     fun process(template: String?): String? {
         if (template.isNullOrBlank()) return null
 
-        var result = template
+        var result: String = template
 
         if (mediaMetadata != null && mediaPlayerAppName != null && mediaPlayerPackageName != null) {
             result = result
