@@ -153,15 +153,6 @@ fun SettingsDrawer(
                 }
                 item {
                     SettingsItemCard(
-                        title = "Discord",
-                        icon = ImageVector.vectorResource(id = R.drawable.ic_discord)
-                    ) {
-                        //Discord Server Link
-                        uriHandler.openUri(chips.first().url)
-                    }
-                }
-                item {
-                    SettingsItemCard(
                         title = stringResource(id = R.string.about),
                         icon = Icons.Outlined.Info
                     ) {
