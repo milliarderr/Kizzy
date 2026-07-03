@@ -60,7 +60,6 @@ class ExperimentalRpcViewmodel @Inject constructor(
             customTimestampEnd = Prefs[Prefs.EXPERIMENTAL_RPC_TIMESTAMP_CUSTOM_END, ""],
             showSongAsTitle = Prefs[Prefs.EXPERIMENTAL_RPC_SHOW_SONG_AS_TITLE, false],
             titleSource = Prefs[Prefs.EXPERIMENTAL_RPC_TITLE_SOURCE, "title"],
-            showAlbumName = Prefs[Prefs.EXPERIMENTAL_RPC_SHOW_ALBUM_NAME, true],
         )
     )
     val uiState = _uiState.asStateFlow()
@@ -276,12 +275,6 @@ class ExperimentalRpcViewmodel @Inject constructor(
 
                 is UiEvent.TriggerTitleSourceDropDown -> {
                     _uiState.update { it.copy(titleSourceExpanded = !it.titleSourceExpanded) }
-                }
-
-                is UiEvent.ToggleShowAlbumName -> {
-                    Prefs[Prefs.EXPERIMENTAL_RPC_SHOW_ALBUM_NAME] = event.enabled
-                    _uiState.update { it.copy(showAlbumName = event.enabled) }
-                    restartServiceIfRunning()
                 }
             }
         }

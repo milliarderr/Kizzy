@@ -223,6 +223,4 @@
     <string name="title_source_song">Название песни</string>
     <string name="title_source_artist">Исполнитель</string>
     <string name="timestamp_mode">Режим временных меток</string>
-    <string name="show_album_name">Показывать название альбома</string>
-    <string name="show_album_name_desc">Показывать название альбома при наводке на обложку</string>
 </resources>

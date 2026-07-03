@@ -24,7 +24,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Album
 import androidx.compose.material.icons.filled.AppsOutage
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -291,17 +290,6 @@ fun ExperimentalRpcScreen(
                             onEvent(UiEvent.ToggleShowCoverArt(!state.showCoverArt))
                         },
                         icon = Icons.Outlined.Image,
-                    )
-                }
-                item {
-                    PreferenceSwitch(
-                        title = stringResource(R.string.show_album_name),
-                        description = stringResource(R.string.show_album_name_desc),
-                        isChecked = state.showAlbumName,
-                        onClick = {
-                            onEvent(UiEvent.ToggleShowAlbumName(!state.showAlbumName))
-                        },
-                        icon = Icons.Default.Album,
                     )
                 }
                 item {

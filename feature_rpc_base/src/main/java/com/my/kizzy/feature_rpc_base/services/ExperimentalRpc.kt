@@ -305,7 +305,7 @@ class ExperimentalRpc : Service() {
                 else -> null
             }
 
-            finalLargeText = if (Prefs[Prefs.EXPERIMENTAL_RPC_SHOW_ALBUM_NAME, true]) richMediaInfo?.album else null
+            finalLargeText = richMediaInfo?.album
             finalSmallText =
                 if (finalSmallImage == richMediaInfo?.appIcon) richMediaInfo?.appName else null
 

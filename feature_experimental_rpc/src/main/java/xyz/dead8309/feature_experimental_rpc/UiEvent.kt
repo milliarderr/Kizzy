@@ -41,5 +41,4 @@ sealed interface UiEvent {
     data class ToggleShowSongAsTitle(val enabled: Boolean) : UiEvent
     data class SetTitleSource(val value: String) : UiEvent
     object TriggerTitleSourceDropDown : UiEvent
-    data class ToggleShowAlbumName(val enabled: Boolean) : UiEvent
 }
