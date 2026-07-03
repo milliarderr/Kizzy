@@ -15,7 +15,7 @@
     <string name="activity_large_image">Большая картинка активности</string>
     <string name="activity_small_image">Малая картинка активности</string>
     <string name="activity_type">Тип активности</string>
-    <string name="activity_platform">Activity Platform</string>
+    <string name="activity_platform">Платформа активности</string>
     <string name="load_config">Загрузить из файлов</string>
     <string name="save_config">Сохранить конфигурацию</string>
     <string name="delete_configs">Удалить конфигурацию</string>
@@ -223,4 +223,24 @@
     <string name="title_source_song">Название песни</string>
     <string name="title_source_artist">Исполнитель</string>
     <string name="timestamp_mode">Режим временных меток</string>
+    <string name="completion_media_album">Название альбома</string>
+    <string name="completion_media_album_artist">Артист альбома</string>
+    <string name="completion_media_duration">Длительность трека</string>
+    <string name="completion_media_writer">Автор текста</string>
+    <string name="completion_media_composer">Композитор</string>
+    <string name="completion_battery">Уровень заряда</string>
+    <string name="completion_playback">Состояние воспроизведения</string>
+    <string name="type_to_insert_variable">Введите \'{{\'  для вставки переменной</string>
+    <string name="app_selection">Выбор приложений</string>
+    <string name="platform_none_desktop">Ничего (Desktop)</string>
+    <string name="platform_desktop">Desktop</string>
+    <string name="platform_web">Web</string>
+    <string name="platform_android">Android</string>
+    <string name="platform_ios">iOS</string>
+    <string name="platform_xbox">Xbox</string>
+    <string name="platform_playstation">Playstation</string>
+    <string name="platform_vr">VR</string>
+    <string name="timestamp_mode_default">Медиа / Приложение (по умолчанию)</string>
+    <string name="timestamp_mode_current">Как текущее время суток</string>
+    <string name="timestamp_mode_custom">Своё</string>
 </resources>

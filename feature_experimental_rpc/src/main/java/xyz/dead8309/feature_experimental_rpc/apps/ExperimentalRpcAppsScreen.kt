@@ -131,7 +131,7 @@ fun ExperimentalRpcAppsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("App Selection") },
+                title = { Text(stringResource(R.string.app_selection)) },
                 navigationIcon = { BackButton(onClick = onBackPressed) },
                 actions = {
                     if (isSearchBarVisible) {

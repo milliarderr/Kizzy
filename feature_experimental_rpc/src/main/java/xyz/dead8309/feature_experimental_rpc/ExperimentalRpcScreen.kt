@@ -329,7 +329,12 @@ fun ExperimentalRpcScreen(
                         else
                             Icons.Default.KeyboardArrowDown
 
-                        val tsLabel = Constants.TIMESTAMP_MODES.entries
+                        val tsModes = linkedMapOf(
+                            stringResource(R.string.timestamp_mode_default) to "default",
+                            stringResource(R.string.timestamp_mode_current) to "current",
+                            stringResource(R.string.timestamp_mode_custom) to "custom",
+                        )
+                        val tsLabel = tsModes.entries
                             .firstOrNull { it.value == state.timestampMode }?.key ?: state.timestampMode
 
                         RpcField(
@@ -351,7 +356,7 @@ fun ExperimentalRpcScreen(
                                     },
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
-                                    Constants.TIMESTAMP_MODES.forEach { (label, value) ->
+                                    tsModes.forEach { (label, value) ->
                                         DropdownMenuItem(
                                             text = { Text(text = label) },
                                             onClick = { onEvent(UiEvent.SetTimestampMode(value)) },
@@ -422,8 +427,17 @@ fun ExperimentalRpcScreen(
                     else
                         Icons.Default.KeyboardArrowDown
 
-                    // Show the human-readable label (e.g. "Android") for the stored id.
-                    val platformLabel = Constants.SPOOF_PLATFORMS.entries
+                    val platforms = linkedMapOf(
+                        stringResource(R.string.platform_none_desktop) to "",
+                        stringResource(R.string.platform_desktop) to "desktop",
+                        stringResource(R.string.platform_web) to "web",
+                        stringResource(R.string.platform_android) to "android",
+                        stringResource(R.string.platform_ios) to "ios",
+                        stringResource(R.string.platform_xbox) to "xbox",
+                        stringResource(R.string.platform_playstation) to "playstation",
+                        stringResource(R.string.platform_vr) to "vr",
+                    )
+                    val platformLabel = platforms.entries
                         .firstOrNull { it.value == state.platform }?.key ?: state.platform
 
                     RpcField(
@@ -445,7 +459,7 @@ fun ExperimentalRpcScreen(
                                 },
                                 modifier = Modifier.fillMaxWidth()
                             ) {
-                                Constants.SPOOF_PLATFORMS.forEach { (label, value) ->
+                                platforms.forEach { (label, value) ->
                                     DropdownMenuItem(
                                         text = { Text(text = label) },
                                         onClick = { onEvent(UiEvent.SetPlatform(value)) },

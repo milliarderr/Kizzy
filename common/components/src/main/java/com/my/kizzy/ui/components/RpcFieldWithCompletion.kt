@@ -13,6 +13,7 @@
 package com.my.kizzy.ui.components
 
 import androidx.annotation.StringRes
+import com.my.kizzy.resources.R
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -217,7 +218,7 @@ fun RpcFieldWithCompletions(
             },
             enabled = enabled,
             label = { Text(stringResource(id = label)) },
-            placeholder = { Text("Type '{{' to insert a variable") },
+            placeholder = { Text(stringResource(R.string.type_to_insert_variable)) },
             keyboardOptions = keyboardOptions,
             trailingIcon = trailingIcon,
             isError = isError,

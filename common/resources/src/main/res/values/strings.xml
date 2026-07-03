@@ -233,4 +233,17 @@
     <string name="experimental_rpc_title_toggle_desc">Show song info in the activity title instead of app name</string>
     <string name="title_source_song">Song Name</string>
     <string name="title_source_artist">Artist</string>
+    <string name="type_to_insert_variable">Type \'{{\'  to insert a variable</string>
+    <string name="app_selection">App Selection</string>
+    <string name="platform_none_desktop">None (Desktop)</string>
+    <string name="platform_desktop">Desktop</string>
+    <string name="platform_web">Web</string>
+    <string name="platform_android">Android</string>
+    <string name="platform_ios">iOS</string>
+    <string name="platform_xbox">Xbox</string>
+    <string name="platform_playstation">Playstation</string>
+    <string name="platform_vr">VR</string>
+    <string name="timestamp_mode_default">Media / App (default)</string>
+    <string name="timestamp_mode_current">Same as current time of day</string>
+    <string name="timestamp_mode_custom">Custom</string>
 </resources>
