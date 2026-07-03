@@ -256,6 +256,7 @@ object Prefs {
     const val EXPERIMENTAL_RPC_TIMESTAMP_CUSTOM_END = "experimental_rpc_timestamp_custom_end"
     const val EXPERIMENTAL_RPC_SHOW_SONG_AS_TITLE = "experimental_rpc_show_song_as_title"
     const val EXPERIMENTAL_RPC_TITLE_SOURCE = "experimental_rpc_title_source" // "title" or "artist"
+    const val EXPERIMENTAL_RPC_SHOW_ALBUM_NAME = "experimental_rpc_show_album_name"
     fun saveAppActivityType(packageName: String, activityType: Int) {
         val json = get(EXPERIMENTAL_RPC_APP_ACTIVITY_TYPES, "{}")
         val map: MutableMap<String, Int> = try {

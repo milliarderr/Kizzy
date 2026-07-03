@@ -218,4 +218,11 @@
     <string name="set_imgur_client_id">Установить Imgur Client ID</string>
     <string name="set_imgur_client_id_desc">Если изображения с Imgur не показываются, вы можете попробовать установить свой Client ID</string>
     <string name="show_song_as_title">Показать песню в заголовке</string>
+    <string name="experimental_rpc_title_toggle">Заголовок</string>
+    <string name="experimental_rpc_title_toggle_desc">Показывать название песни или исполнителя в заголовке активности вместо имени приложения</string>
+    <string name="title_source_song">Название песни</string>
+    <string name="title_source_artist">Исполнитель</string>
+    <string name="timestamp_mode">Режим временных меток</string>
+    <string name="show_album_name">Показывать название альбома</string>
+    <string name="show_album_name_desc">Показывать название альбома при наводке на обложку</string>
 </resources>
