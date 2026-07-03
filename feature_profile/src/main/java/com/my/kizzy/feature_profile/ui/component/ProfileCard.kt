@@ -126,6 +126,36 @@ fun ProfileCard(
                         .clip(CircleShape),
                 )
 
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(15.dp, 8.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color.White)
+                ) {
+                    if (user.nitro == true) {
+                        AsyncImage(
+                            model = NITRO_ICON,
+                            placeholder = painterResource(R.drawable.broken_image),
+                            modifier = Modifier
+                                .size(40.dp)
+                                .padding(5.dp),
+                            contentDescription = "Nitro Icon"
+                        )
+                    }
+                    user.badges?.let {
+                        it.forEach { badge ->
+                            AsyncImage(
+                                model = badge.icon,
+                                placeholder = painterResource(R.drawable.broken_image),
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .padding(5.dp),
+                                contentDescription = badge.name
+                            )
+                        }
+                    }
+                }
             }
             Column(
                 Modifier
