@@ -122,7 +122,7 @@
     <string name="version">Версия</string>
     <string name="try_again">Повторить</string>
     <string name="request_for_notification_access">Доступ к уведомлениям необходим для получения информации о медиа-контенте.</string>
-    <string name="update_check_for_update">Проверяем, если ли обновление…</string>
+    <string name="update_check_for_update">Проверяем, есть ли обновление…</string>
     <string name="update_no_updates_available">Вы на последней версии!</string>
     <string name="compact_mode">Компактный режим</string>
     <string name="are_you_sure">Вы уверены?</string>
