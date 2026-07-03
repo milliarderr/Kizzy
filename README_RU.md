@@ -107,9 +107,9 @@ git clone https://github.com/milliarderr/Kizzy-Enhanced.git
 Открой проект в Android Studio, импортируй, затем собери и запусти. Релизные сборки собираются автоматически через GitHub Actions workflow **Build Release Apk**.
 
 ## Благодарности
-Оригинальное приложение и весь апстрим — [dead8309](https://github.com/dead8309/Kizzy) и контрибьюторы.
+✨ [dead8309](https://github.com/dead8309/Kizzy) — оригинальное приложение и весь апстрим.
 
-Фиксы надёжности gateway портированы из [YuuzuTH/Kizzy](https://github.com/YuuzuTH/Kizzy).
+✨ [YuuzuTH/Kizzy](https://github.com/YuuzuTH/Kizzy) — фиксы надёжности gateway.
 
 ✨ [Read You](https://github.com/Ashinch/ReadYou) и [Seal](https://github.com/JunkFood02/Seal) — UI компоненты
 
