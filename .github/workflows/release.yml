@@ -130,7 +130,6 @@ jobs:
             **Package / Пакет:** `io.kizzy.fork`
             **Version / Версия:** `6.2-fork-${{ github.run_number }}`
             **Base / База:** [Kizzy by dead8309](https://github.com/dead8309/Kizzy)
-            **Fork customizations built by** [Claude Code](https://claude.com/claude-code) (Anthropic)
             See the [README](../../blob/master/README.md) for the full list of fork features.
           files: ${{ steps.apk.outputs.path }}
         env:
