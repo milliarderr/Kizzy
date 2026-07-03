@@ -15,7 +15,7 @@
     <string name="activity_large_image">Большая картинка активности</string>
     <string name="activity_small_image">Малая картинка активности</string>
     <string name="activity_type">Тип активности</string>
-    <string name="activity_platform">Activity Platform</string>
+    <string name="activity_platform">Платформа</string>
     <string name="load_config">Загрузить из файлов</string>
     <string name="save_config">Сохранить конфигурацию</string>
     <string name="delete_configs">Удалить конфигурацию</string>
@@ -122,7 +122,7 @@
     <string name="version">Версия</string>
     <string name="try_again">Повторить</string>
     <string name="request_for_notification_access">Доступ к уведомлениям необходим для получения информации о медиа-контенте.</string>
-    <string name="update_check_for_update">Проверяем, если ли обновление…</string>
+    <string name="update_check_for_update">Проверяем, есть ли обновление…</string>
     <string name="update_no_updates_available">Вы на последней версии!</string>
     <string name="compact_mode">Компактный режим</string>
     <string name="are_you_sure">Вы уверены?</string>
