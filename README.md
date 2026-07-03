@@ -107,9 +107,9 @@ git clone https://github.com/milliarderr/Kizzy-Enhanced.git
 Open the project in Android Studio, import it, then Build and Run. Release builds are produced automatically by the **Build Release Apk** GitHub Actions workflow.
 
 ## Credits
-Original app and all upstream work by [dead8309](https://github.com/dead8309/Kizzy) and contributors.
+✨ [Kizzy](https://github.com/dead8309/Kizzy) for the original Kizzy project.
 
-Gateway resilience fixes ported from [YuuzuTH/Kizzy](https://github.com/YuuzuTH/Kizzy).
+✨ [YuuzuTH/Kizzy](https://github.com/YuuzuTH/Kizzy) for gateway resilience fixes.
 
 ✨ [Read You](https://github.com/Ashinch/ReadYou) and [Seal](https://github.com/JunkFood02/Seal) for UI Components
 
