@@ -40,6 +40,7 @@ open class DiscordWebSocketImpl(
     private var connected = false
     private var deliberateClose = false
     private var reconnectAttempts = 0
+    private var awaitingHeartbeatAck = false
     private var client: HttpClient = HttpClient {
         install(WebSockets)
     }
@@ -48,8 +49,8 @@ open class DiscordWebSocketImpl(
         encodeDefaults = true
     }
 
-    override val coroutineContext: CoroutineContext
-        get() = SupervisorJob() + Dispatchers.Default
+    private val supervisorJob = SupervisorJob()
+    override val coroutineContext: CoroutineContext = supervisorJob + Dispatchers.Default
 
     override suspend fun connect() {
         launch {
@@ -83,6 +84,7 @@ open class DiscordWebSocketImpl(
     private suspend fun handleClose() {
         heartbeatJob?.cancel()
         connected = false
+        awaitingHeartbeatAck = false
         val close = websocket?.closeReason?.await()
         val code = close?.code?.toInt()
         logger.w("Gateway","Closed with code: $code, reason: ${close?.message}")
@@ -104,6 +106,7 @@ open class DiscordWebSocketImpl(
         if (deliberateClose) return
         heartbeatJob?.cancel()
         connected = false
+        awaitingHeartbeatAck = false
         runCatching { websocket?.close() }
         val delayMs = (2000L shl minOf(reconnectAttempts, 5)).coerceAtMost(60_000L)
         reconnectAttempts++
@@ -129,6 +132,10 @@ open class DiscordWebSocketImpl(
             RECONNECT -> reconnectWebSocket()
             INVALID_SESSION -> handleInvalidSession()
             HELLO -> handleHello(jsonString)
+            HEARTBEAT_ACK -> {
+                awaitingHeartbeatAck = false
+                logger.d("Gateway", "Heartbeat ACK received")
+            }
             else -> {}
         }
     }
@@ -220,8 +227,15 @@ open class DiscordWebSocketImpl(
 
     private fun startHeartbeatJob(interval: Long) {
         heartbeatJob?.cancel()
+        awaitingHeartbeatAck = false
         heartbeatJob = launch {
             while (isActive) {
+                if (awaitingHeartbeatAck) {
+                    logger.w("Gateway", "No heartbeat ACK — zombie connection, reconnecting")
+                    reconnectWebSocket()
+                    return@launch
+                }
+                awaitingHeartbeatAck = true
                 sendHeartBeat()
                 delay(interval)
             }
