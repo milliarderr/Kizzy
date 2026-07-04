@@ -62,6 +62,7 @@ import com.my.kizzy.data.rpc.Constants.MAX_ALLOWED_CHARACTER_LENGTH
 import com.my.kizzy.data.utils.uriToFile
 import com.my.kizzy.domain.model.user.User
 import com.my.kizzy.feature_custom_rpc.components.BottomSheet
+import com.my.kizzy.feature_custom_rpc.components.RpcLivePreview
 import com.my.kizzy.feature_custom_rpc.components.DateTimePickerDialog
 import com.my.kizzy.feature_custom_rpc.components.ImagePicker
 import com.my.kizzy.feature_custom_rpc.components.sheet.DeleteConfigDialog
@@ -244,6 +245,9 @@ private fun RpcTextFieldsColumn(
                     false -> context.stopService(Intent(context, CustomRpcService::class.java))
                 }
             }
+        }
+        item {
+            RpcLivePreview(rpcConfig = uiState.rpcConfig)
         }
         with(uiState.rpcConfig) {
             item {
