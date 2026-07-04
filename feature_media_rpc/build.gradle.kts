@@ -9,6 +9,7 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.compose.bom))
     implementation(projects.featureRpcBase)
     implementation(libs.material.icons.extended)
 }

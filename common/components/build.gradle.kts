@@ -8,6 +8,7 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.compose.bom))
     implementation (projects.theme)
     implementation (libs.material3)
     implementation (projects.color)

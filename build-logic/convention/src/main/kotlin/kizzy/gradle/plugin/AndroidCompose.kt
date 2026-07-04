@@ -17,12 +17,12 @@ internal fun Project.configureAndroidCompose(
         }
 
         dependencies {
-            val composeUi = libs.findLibrary("compose.ui").get()
-            val composeUiTooling = libs.findLibrary("compose.ui.tooling").get()
-            val composeUiToolingPreview = libs.findLibrary("compose-ui.tooling.preview").get()
-            add("implementation", composeUi)
-            add("debugImplementation", composeUiTooling)
-            add("implementation", composeUiToolingPreview)
+            val bom = libs.findLibrary("compose.bom").get()
+            add("implementation", platform(bom))
+            add("debugImplementation", platform(bom))
+            add("implementation", libs.findLibrary("compose.ui").get())
+            add("debugImplementation", libs.findLibrary("compose.ui.tooling").get())
+            add("implementation", libs.findLibrary("compose-ui.tooling.preview").get())
         }
     }
 }

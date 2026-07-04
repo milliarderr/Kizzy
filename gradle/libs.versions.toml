@@ -13,7 +13,7 @@ androidx-material = "1.12.0"
 app-compat = "1.7.0"
 blankj-utilcodex = "1.31.0"
 coil = "2.1.0"
-compose = "1.8.2"
+compose-bom = "2025.06.01"
 compose-navigation = "2.8.3"
 core-ktx = "1.13.1"
 crashx = "v6.0.19"
@@ -43,16 +43,19 @@ kotlinx-coroutine = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
 
-# Material3
-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
-material3-windows-size = { module = "androidx.compose.material3:material3-window-size-class", version.ref = "material3" }
+# Compose BOM
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 
-# Compose
-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose" }
-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose" }
+# Material3 (version managed by BOM)
+material3 = { module = "androidx.compose.material3:material3" }
+material3-windows-size = { module = "androidx.compose.material3:material3-window-size-class" }
+
+# Compose (version managed by BOM)
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+compose-runtime = { module = "androidx.compose.runtime:runtime" }
 
 # Accompanist
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }

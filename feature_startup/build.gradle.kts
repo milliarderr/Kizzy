@@ -9,6 +9,7 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.compose.bom))
     implementation (libs.activity.compose)
     implementation (libs.material.icons.extended)
     implementation (libs.accompanist.permission)

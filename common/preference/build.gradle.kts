@@ -8,6 +8,7 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.compose.bom))
     implementation(projects.color)
     implementation(projects.domain)
     implementation(projects.common.resources)
