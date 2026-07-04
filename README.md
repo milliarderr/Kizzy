@@ -6,6 +6,7 @@
 </div>
 
 <div align="center">
+  <img width="926" height="1085" alt="17831857804884335100104411839142" src="https://github.com/user-attachments/assets/f8402300-d628-4104-8f86-dc6021c9fbbe" />
 <img src="https://img.shields.io/badge/Minimum%20SDK-27-%23?&style=flat-square&color=5b5ef7">
 <img src="https://img.shields.io/badge/kotlin-5b5ef7.svg?logo=kotlin&logoColor=white&style=flat-square">
 <img src="https://img.shields.io/badge/package-com.my.kizzy.enhanced-5b5ef7?style=flat-square">
