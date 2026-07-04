@@ -19,6 +19,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
+import android.os.Build
 import android.os.Environment
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -240,14 +241,7 @@ private fun DownloadProgressDialog(apkUrl: String, onDismiss: () -> Unit) {
                     if (status == DownloadManager.STATUS_SUCCESSFUL) {
                         downloadState = DownloadState.DONE
                         progress = 1f
-                        val uri = dm.getUriForDownloadedFile(id)
-                        if (uri != null) {
-                            ctx.startActivity(Intent(Intent.ACTION_VIEW).apply {
-                                setDataAndType(uri, "application/vnd.android.package-archive")
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            })
-                        }
+                        launchInstaller(ctx, id, dm)
                     } else {
                         downloadState = DownloadState.ERROR
                     }
@@ -279,10 +273,22 @@ private fun DownloadProgressDialog(apkUrl: String, onDismiss: () -> Unit) {
                 if (cursor.moveToFirst()) {
                     val total = cursor.getLong(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
                     val done = cursor.getLong(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
+                    val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
                     if (total > 0) progress = done.toFloat() / total.toFloat()
+                    when (status) {
+                        DownloadManager.STATUS_SUCCESSFUL -> {
+                            downloadState = DownloadState.DONE
+                            progress = 1f
+                            launchInstaller(context, downloadId, dm)
+                        }
+                        DownloadManager.STATUS_FAILED -> {
+                            downloadState = DownloadState.ERROR
+                        }
+                        else -> {}
+                    }
                 }
                 cursor.close()
-                delay(300)
+                delay(500)
             }
         }
 
@@ -344,4 +350,40 @@ fun UpdateDialogPreview() {
         onDismissRequest = {},
         modifier = Modifier.height(500.dp).width(300.dp)
     )
+}
+
+private fun launchInstaller(context: Context, downloadId: Long, dm: DownloadManager) {
+    try {
+        // Try DownloadManager URI first
+        val uri = dm.getUriForDownloadedFile(downloadId)
+        if (uri != null) {
+            context.startActivity(Intent(Intent.ACTION_VIEW).apply {
+                setDataAndType(uri, "application/vnd.android.package-archive")
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            })
+            return
+        }
+    } catch (_: Exception) {}
+
+    // Fallback: FileProvider from Downloads directory
+    try {
+        val file = java.io.File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+            "kizzy-enhanced-update.apk"
+        )
+        if (!file.exists()) return
+        val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            androidx.core.content.FileProvider.getUriForFile(
+                context, "${context.packageName}.provider", file
+            )
+        } else {
+            Uri.fromFile(file)
+        }
+        context.startActivity(Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, "application/vnd.android.package-archive")
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        })
+    } catch (_: Exception) {}
 }
