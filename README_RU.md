@@ -1,4 +1,6 @@
 <div align="center">
+  <img width="2048" height="989" alt="17831909936168749184217530060427" src="https://github.com/user-attachments/assets/9af64f16-8a70-4128-9736-f907f1e3c06d" />
+
 <h1><img src="https://github.com/user-attachments/assets/02086040-660d-42d8-8830-78053e1e05a4" height="30" style="vertical-align: middle;"> Kizzy Enhanced</h1>
 <h4>Расширенный форк <a href="https://github.com/dead8309/Kizzy">Kizzy</a> — менеджер Discord Rich Presence для Android, написанный на Kotlin.</h4>
 </div>
