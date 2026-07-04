@@ -8,7 +8,6 @@ android {
 }
 
 dependencies {
-    implementation(platform(libs.compose.bom))
     implementation (libs.material3)
     implementation (libs.material3.windows.size)
     implementation (projects.domain)

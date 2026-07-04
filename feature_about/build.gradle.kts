@@ -14,7 +14,6 @@ android {
 }
 
 dependencies {
-    implementation(platform(libs.compose.bom))
     implementation (libs.coil)
     implementation (libs.material.icons.extended)
     implementation (libs.activity.compose)

@@ -13,7 +13,6 @@ android {
 }
 
 dependencies {
-    implementation(platform(libs.compose.bom))
     implementation(libs.androidx.material)
     implementation(libs.material.icons.extended)
     implementation(libs.accompanist.pager.layouts)

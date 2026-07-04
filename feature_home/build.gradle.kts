@@ -12,7 +12,6 @@ android {
 }
 
 dependencies {
-    implementation(platform(libs.compose.bom))
     implementation (libs.accompanist.flowLayout)
     implementation (libs.material.icons.extended)
     implementation (projects.featureRpcBase)

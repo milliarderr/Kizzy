@@ -51,7 +51,6 @@ android {
     }
 }
 dependencies {
-    implementation(platform(libs.compose.bom))
     implementation (projects.domain)
     implementation (projects.theme)
     implementation (projects.featureStartup)

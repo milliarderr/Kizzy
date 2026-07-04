@@ -20,6 +20,13 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -38,7 +45,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.WavyLinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -50,15 +56,23 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.my.kizzy.resources.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.math.PI
+import kotlin.math.sin
 
 fun Int.formatSize(): String =
     (this / 1024f / 1024f)
@@ -66,6 +80,85 @@ fun Int.formatSize(): String =
         ?.run { " ${String.format("%.2f", this)} MB" } ?: ""
 
 private enum class DownloadState { IDLE, DOWNLOADING, DONE, ERROR }
+
+/**
+ * MD3-style wavy progress indicator drawn with Canvas.
+ * - determinate: flat bar up to [progress], wavy tail beyond
+ * - indeterminate: full wavy animation
+ */
+@Composable
+fun WavyProgressIndicator(
+    progress: Float = -1f,          // -1 = indeterminate
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.primary,
+    trackColor: Color = MaterialTheme.colorScheme.surfaceVariant,
+    strokeWidth: Dp = 4.dp,
+    waveAmplitude: Float = 4f,
+    waveLength: Float = 24f,
+) {
+    val infiniteTransition = rememberInfiniteTransition(label = "wavy")
+    val phaseShift by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 2f * PI.toFloat(),
+        animationSpec = infiniteRepeatable(
+            animation = tween(durationMillis = 1000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "phase"
+    )
+
+    Canvas(modifier = modifier.height(strokeWidth * 3)) {
+        val sw = strokeWidth.toPx()
+        val w = size.width
+        val h = size.height
+        val cy = h / 2f
+        val isIndeterminate = progress < 0f
+        val fillX = if (isIndeterminate) w else (progress * w).coerceIn(0f, w)
+
+        // Track (background)
+        drawLine(
+            color = trackColor,
+            start = Offset(0f, cy),
+            end = Offset(w, cy),
+            strokeWidth = sw,
+            cap = StrokeCap.Round
+        )
+
+        // Wavy filled part
+        val path = Path()
+        var started = false
+        var x = 0f
+        val step = 2f
+        while (x <= fillX) {
+            val angle = (x / waveLength) * 2f * PI.toFloat() - phaseShift
+            val y = cy + sin(angle) * waveAmplitude
+            if (!started) { path.moveTo(x, y); started = true }
+            else path.lineTo(x, y)
+            x += step
+        }
+        if (started) {
+            drawPath(
+                path = path,
+                color = color,
+                style = Stroke(width = sw, cap = StrokeCap.Round)
+            )
+        }
+
+        // Flat filled part (deterministic) - when more than 5% done, flatten the tail
+        if (!isIndeterminate && fillX > w * 0.05f) {
+            val flatEnd = (fillX - waveLength / 2).coerceAtLeast(0f)
+            if (flatEnd > 0f) {
+                drawLine(
+                    color = color,
+                    start = Offset(0f, cy),
+                    end = Offset(flatEnd, cy),
+                    strokeWidth = sw,
+                    cap = StrokeCap.Round
+                )
+            }
+        }
+    }
+}
 
 @Composable
 fun UpdateDialog(
@@ -91,9 +184,7 @@ fun UpdateDialog(
     AlertDialog(
         modifier = modifier,
         onDismissRequest = onDismissRequest,
-        icon = {
-            Icon(imageVector = Icons.Outlined.Update, contentDescription = "Update")
-        },
+        icon = { Icon(imageVector = Icons.Outlined.Update, contentDescription = "Update") },
         title = {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(text = stringResource(R.string.change_log))
@@ -115,9 +206,7 @@ fun UpdateDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = {
-                if (apkUrl != null) showDownloadDialog = true
-            }) {
+            TextButton(onClick = { if (apkUrl != null) showDownloadDialog = true }) {
                 Text(text = stringResource(R.string.update))
             }
         },
@@ -130,10 +219,7 @@ fun UpdateDialog(
 }
 
 @Composable
-private fun DownloadProgressDialog(
-    apkUrl: String,
-    onDismiss: () -> Unit,
-) {
+private fun DownloadProgressDialog(apkUrl: String, onDismiss: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
@@ -150,19 +236,17 @@ private fun DownloadProgressDialog(
                 if (id != downloadId) return
                 val cursor = dm.query(DownloadManager.Query().setFilterById(id))
                 if (cursor.moveToFirst()) {
-                    val statusCol = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
-                    if (cursor.getInt(statusCol) == DownloadManager.STATUS_SUCCESSFUL) {
+                    val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
+                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
                         downloadState = DownloadState.DONE
                         progress = 1f
                         val uri = dm.getUriForDownloadedFile(id)
                         if (uri != null) {
-                            ctx.startActivity(
-                                Intent(Intent.ACTION_VIEW).apply {
-                                    setDataAndType(uri, "application/vnd.android.package-archive")
-                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                }
-                            )
+                            ctx.startActivity(Intent(Intent.ACTION_VIEW).apply {
+                                setDataAndType(uri, "application/vnd.android.package-archive")
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            })
                         }
                     } else {
                         downloadState = DownloadState.ERROR
@@ -209,10 +293,7 @@ private fun DownloadProgressDialog(
         onDismissRequest = { if (downloadState != DownloadState.DOWNLOADING) onDismiss() },
         properties = DialogProperties(dismissOnBackPress = downloadState != DownloadState.DOWNLOADING)
     ) {
-        Surface(
-            shape = MaterialTheme.shapes.extraLarge,
-            tonalElevation = 6.dp,
-        ) {
+        Surface(shape = MaterialTheme.shapes.extraLarge, tonalElevation = 6.dp) {
             Column(
                 modifier = Modifier.padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -227,14 +308,10 @@ private fun DownloadProgressDialog(
                     style = MaterialTheme.typography.titleLarge,
                 )
 
-                if (progress > 0f) {
-                    WavyLinearProgressIndicator(
-                        progress = { progress },
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                } else {
-                    WavyLinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-                }
+                WavyProgressIndicator(
+                    progress = if (progress > 0f) progress else -1f,
+                    modifier = Modifier.fillMaxWidth(),
+                )
 
                 Text(
                     text = when (downloadState) {
@@ -265,8 +342,6 @@ fun UpdateDialogPreview() {
         newVersionSize = 1000000,
         apkUrl = null,
         onDismissRequest = {},
-        modifier = Modifier
-            .height(500.dp)
-            .width(300.dp)
+        modifier = Modifier.height(500.dp).width(300.dp)
     )
 }
