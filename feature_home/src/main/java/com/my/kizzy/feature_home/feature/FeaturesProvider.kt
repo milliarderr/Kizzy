@@ -104,7 +104,7 @@ fun homeFeaturesProvider(
                     ctx.stopService(Intent(ctx, CustomRpcService::class.java))
             },
             shape = RoundedCornerShape(20.dp, 44.dp, 20.dp, 44.dp),
-            showSwitch = Prefs[Prefs.LAST_RUN_CONSOLE_RPC, ""].isNotEmpty(),
+            showSwitch = true,
             tooltipText = stringResource(id = R.string.main_consoleRpc_details),
             featureDocsLink = ToolTipContent.CONSOLE_RPC_DOCS_LINK
         ),

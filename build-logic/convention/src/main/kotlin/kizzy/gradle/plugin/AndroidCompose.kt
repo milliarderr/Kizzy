@@ -9,24 +9,26 @@ import org.gradle.kotlin.dsl.getByType
 internal fun Project.configureAndroidCompose(
     commonExtension: CommonExtension<*, *, *, *, *, *>
 ) {
-    val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+    // Kotlin 2.x: compose compiler is a separate Kotlin plugin, not composeOptions
+    pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
 
     commonExtension.apply {
         buildFeatures {
             compose = true
         }
+        // composeOptions.kotlinCompilerExtensionVersion is no longer needed in Kotlin 2.x
+    }
 
-        composeOptions {
-            kotlinCompilerExtensionVersion = libs.findVersion("compose.compiler").get().toString()
-        }
+    val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
-        dependencies {
-            val composeUi = libs.findLibrary("compose.ui").get()
-            val composeUiTooling = libs.findLibrary("compose.ui.tooling").get()
-            val composeUiToolingPreview = libs.findLibrary("compose-ui.tooling.preview").get()
-            add("implementation", composeUi)
-            add("debugImplementation", composeUiTooling)
-            add("implementation", composeUiToolingPreview)
-        }
+    dependencies {
+        val composeBom = libs.findLibrary("compose.bom").get()
+        // BOM controls all androidx.compose.* versions
+        add("implementation", platform(composeBom))
+        add("androidTestImplementation", platform(composeBom))
+
+        add("implementation", libs.findLibrary("compose.ui").get())
+        add("debugImplementation", libs.findLibrary("compose.ui.tooling").get())
+        add("implementation", libs.findLibrary("compose.ui.tooling.preview").get())
     }
 }
